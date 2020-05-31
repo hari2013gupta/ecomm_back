@@ -23,5 +23,6 @@ app.use('/api', mRouter)
 const server = app.listen(process.env.PORT || 8000, () => {
     const host = server.address().address
     const port = server.address().port
-    console.log(`Server is now running at http://${host}:${port}`);
+    console.log('Server is now running at http://' + host + ':' + port);
+    // console.log(`Server is now running at http://${host}:${port}`);
 })
