@@ -1,10 +1,18 @@
 const mySql = require('mysql')
 
 var con = mySql.createConnection({
-    host: 'localhost',
+    host: 'localhost',//'127.0.0.1'
     user: 'root',
     password: '',
-    database: 'ecomm_db'
+    database: 'ecomm_db',
+    debug    :  true,
+    dialect: "mysql",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
 });
 
 con.connect(function (err){

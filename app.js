@@ -1,13 +1,20 @@
 const express = require('express')
 var bodyParser = require('body-parser')
+const cors = require("cors");
 
-const mRouter = require('./routes/router')
-// const mRouterLogin = require('./routes/route_login')
-// const mRouterOne = require('./routes/route_one')
+const app = express();
 
-const app = express()
+var corsOptions = {
+  origin: "http://localhost:8000"
+};
 
+app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
 app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -16,11 +23,17 @@ app.use(function (req, res, next) {
     next();
 });
 
+var config = require('./config');
+const mRouter = require('./app/routes/router')
+// const mRouterLogin = require('./routes/route_login')
+// const mRouterOne = require('./routes/route_one')
+
 app.use('/api', mRouter)
 // app.use('/api', mRouterLogin)
 // app.use('/api', mRouterOne)
 
-const server = app.listen(process.env.PORT || 8000, () => {
+const PORT = process.env.PORT || 8000;
+const server = app.listen(PORT, () => {
     const host = server.address().address
     const port = server.address().port
     console.log('Server is now running at http://' + host + ':' + port);
