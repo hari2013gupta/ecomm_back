@@ -1,5 +1,9 @@
-const con = require('../../db/db_config');
 const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var mysql = require("mysql");
+
+const con = require('../../db/db_config');
+var config = require('../../config');
 
 function executeDBQuery(req, res, strQuery) {
   con.query(strQuery, function (error, results, fields) {
@@ -46,9 +50,9 @@ function executeDBQueryArr(res, strQuery, values) {
 exports.getServerTime = async function (req, res) {
   var today = new Date();
   res.json({
-      code: 200,
-      message: 'Success',
-      data: today
+    code: 200,
+    message: 'Success',
+    data: today
   });
 }
 exports.userRegister = async function (req, res) {
@@ -81,10 +85,18 @@ exports.userRegister = async function (req, res) {
   });
 }
 exports.userLogin = async function (req, res) {
-  var mobile = req.body.mobile;
-  var email = req.body.email;
-  var password = req.body.password;
-  con.query('SELECT * FROM tbl_user WHERE user_mobile = ?', [mobile], async function (error, results, fields) {
+  var post = {
+    password: req.body.password,
+    mobile: req.body.mobile,
+    email: req.body.email //|| req.query.email
+  }
+  // var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
+  // var table = ["tbl_user","password",  md5(post.password), "user_mobile", post.mobile];
+  var query = "SELECT * FROM ?? WHERE ??=?";
+  var table = ["tbl_user", "user_mobile", post.mobile];
+  query = mysql.format(query, table);
+
+  con.query(query, async function (error, results) {
     if (error) {
       res.send({
         "code": 400,
@@ -93,19 +105,47 @@ exports.userLogin = async function (req, res) {
       })
     } else {
       if (results.length > 0) {
-        const comparision = bcrypt.compare(password, results[0].user_password)
+        var token = jwt.sign(results, config.secret, {
+          expiresIn: 1440
+        });
+        const comparision = bcrypt.compare(post.password, results[0].user_password)
         // const comparision = password === results[0].user_password;
         if (comparision) {
-          res.send({
-            "code": 200,
-            "status": true,
-            "success": "Login sucessful!"
-          })
+          var data = {
+            user_id: results[0].user_id,
+            device_type: "zzzzzzzzzz",//results[0].device_type,
+            access_token: token,
+            device_token: results[0].device_token,
+            ip_address: results[0].ip_address
+          }
+          var query = "INSERT INTO  ?? SET  ?";
+          var table = ["tbl_access_token"];
+          query = mysql.format(query, table);
+          con.query(query, data, function (err, rows) {
+            if (err) {
+              res.json({
+                "Error": true,
+                "Message": "Error executing MySQL query"
+              });
+            } else {
+              res.json({
+                status: true,
+                message: 'Token generated',
+                token: token,
+                currUser: results[0].user_id
+              });
+            } // return info including token
+          });
+          // res.send({
+          //   "code": 200,
+          //   "status": true,
+          //   "message": "Login sucessful!"
+          // })
         } else {
           res.send({
             "code": 204,
             "status": false,
-            "success": "Email and password does not match"
+            "message": "Email and password does not match"
           })
         }
       } else {

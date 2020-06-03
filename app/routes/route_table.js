@@ -32,6 +32,18 @@ function executeDBQuery(req, res, strQuery) {
     });
 }
 exports.createTable = async function (req, res) {
+    const query_access_token = "CREATE TABLE `tbl_access_token` (" +
+        "`access_token_id` int(11) unsigned NOT NULL AUTO_INCREMENT," +
+        "`user_id` int(11) unsigned NOT NULL," +
+        "`access_token` text," +
+        "`device_type` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`device_token` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL," +
+        "`ip_address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL," +
+        "`created_at` datetime NOT NULL," +
+        "`updated_at` datetime NOT NULL," +
+        "PRIMARY KEY (`access_token_id`)," +
+        "CONSTRAINT fk_access_token_1_idx FOREIGN KEY (`user_id`) REFERENCES `tbl_user`(`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" +
+        ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
     const query_user = "CREATE TABLE `tbl_user` (" +
         "`user_id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
         "`user_mobile` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
@@ -84,7 +96,7 @@ exports.createTable = async function (req, res) {
         "`o_id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
         "`o_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`o_status` int(2) unsigned NOT NULL DEFAULT 0," + //0-not valid,1-ordered,2-verified,3-deliv
-        "`o_product_ids` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`o_verified` int(2) unsigned NOT NULL DEFAULT 0," + //0-not verified,1-verified
         "`o_amount` int(10) unsigned NOT NULL DEFAULT 0," +
         "`o_coupon` varchar(20) COLLATE utf8mb4_unicode_ci," +
         "`o_date` datetime NOT NULL," +
@@ -95,10 +107,25 @@ exports.createTable = async function (req, res) {
         "UNIQUE KEY `o_number` (`o_number`)" +
         ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
+    const query_order_product_purchased = "CREATE TABLE `tbl_order_product_purchased` (" +
+        "`o_id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
+        "`o_number` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`product_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`product_count` int(10) unsigned NOT NULL DEFAULT 0," +
+        "`product_mrp` int(10) unsigned NOT NULL DEFAULT 0," +
+        "`product_price` int(10) unsigned NOT NULL DEFAULT 0," +
+        "`purchase_date` datetime NOT NULL," +
+        "`created_at` datetime NOT NULL," +
+        "`updated_at` datetime NOT NULL," +
+        "PRIMARY KEY (`product_id`)," +
+        "CONSTRAINT FK_OrderUserId FOREIGN KEY (`user_id`) REFERENCES `tbl_user`(`user_id`)," +
+        "UNIQUE KEY `o_number` (`o_number`)" +
+        ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
     const query_cart = "CREATE TABLE `tbl_cart` (" +
-    "`user_id` int(10) unsigned NOT NULL," +
-    "`store_id` int(10) unsigned NOT NULL," +
-    // "`cart_id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
+        "`user_id` int(10) unsigned NOT NULL," +
+        "`store_id` int(10) unsigned NOT NULL," +
+        // "`cart_id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
         "`product_ids` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`count` int(10) unsigned NOT NULL DEFAULT 0," +
         "`cart_tag` varchar(255) COLLATE utf8mb4_unicode_ci," +
@@ -243,7 +270,7 @@ exports.createTable = async function (req, res) {
     //following module yet to be done//(todo task)
     const query_deliv_user = "CREATE TABLE `tbl_deliv_user` (" +
         "`id` int(10) unsigned NOT NULL AUTO_INCREMENT," +
-        "`mobile` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`rating` int(2) unsigned NOT NULL DEFAULT 0," +
         "PRIMARY KEY (`id`)," +
         "UNIQUE KEY `mobile` (`mobile`)" +
         ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
@@ -274,6 +301,7 @@ exports.createTable = async function (req, res) {
 
     const query_drop_table = "DROP TABLE tbl_user";
     // executeDBQuery(req, res, query_drop_table);
+    executeDBQuery(req, res, query_access_token);
     // executeDBQuery(req, res, query_user);
     // executeDBQuery(req, res, query_address);
     // executeDBQuery(req, res, query_city);
@@ -287,7 +315,7 @@ exports.createTable = async function (req, res) {
     // executeDBQuery(req, res, query_wallet);
     // executeDBQuery(req, res, query_offer);
     // executeDBQuery(req, res, query_coupon);
-    executeDBQuery(req, res, query_notification);
+    // executeDBQuery(req, res, query_notification);
     // executeDBQuery(req, res, query_deliv_user);
     // executeDBQuery(req, res, query_deliv_address);
     // executeDBQuery(req, res, query_order);

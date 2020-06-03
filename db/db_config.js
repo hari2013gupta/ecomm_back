@@ -7,6 +7,15 @@ var con = mySql.createConnection({
     database: 'ecomm_db',
     debug    :  true,
     dialect: "mysql",
+    //     dialectOptions: {
+    //       port: '49189',
+    //       database: 'school_db',
+    //       instanceName: "SQLEXPRESS"
+    //   },
+    //     options: {
+    //         trustedConnection: true,
+    //         encrypt: false // Use this if you're on Windows Azure
+    //     }
     pool: {
       max: 5,
       min: 0,

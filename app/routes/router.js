@@ -1,3 +1,4 @@
+var verifyToken = require('../verifyToken');
 const mRouteWelcome = require('./route_welcome');
 const mRouteLogin = require('./route_login')
 // const mRouteCommon = require('./route_common')
@@ -14,8 +15,8 @@ const router = express.Router()
 // var findAllUsers = require('./middleware/findAllUsers');
 // var welcome = require('./welcome');
 
-// //route middleware to verify a token 
-// router.use(verifyToken);
+//route middleware to verify a token 
+router.use(verifyToken); 
 router.get('/', mRouteWelcome.welcome);
 // router.get('/users', findAllUsers);
 
