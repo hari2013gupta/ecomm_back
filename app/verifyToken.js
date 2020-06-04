@@ -10,12 +10,13 @@ var config = require('../config'); // get our config file
  */
 
 var verifyToken = function (req, res, next) {
-	var token = req.body.token || req.query.token || req.headers['token'];
+	var token = req.body.token || req.query.token || req.headers['x-access-token'];
 	if (token) {
 		// verify secret and checks exp
 		jwt.verify(token, config.secret, function (err, currUser) {
 			if (err) {
-				res.send(err);
+				console.log(err);
+				res.status(401).send("Session expired!");
 			} else {
 				// decoded object
 				req.currUser = currUser;
@@ -25,7 +26,7 @@ var verifyToken = function (req, res, next) {
 	} else {
 		// send not found error
 		//res.send(401, " ");
-		res.status(401).send("Invalid Access");
+		res.status(401).send("Invalid Access!");
 	}
 };
 module.exports = verifyToken;

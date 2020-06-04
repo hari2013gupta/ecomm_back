@@ -69,11 +69,12 @@ exports.createTable = async function (req, res) {
         "`geo_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`latitude` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`longitude` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
-        "`pin` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`pin` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`area` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL," +
-        "`city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL," +
-        "`state` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL," +
-        "`country` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`city` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`state` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`country` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`time_zone` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL," +
         "`created_at` datetime NOT NULL," +
         "`updated_at` datetime NOT NULL," +
         "PRIMARY KEY (`address_id`)," +
@@ -149,6 +150,7 @@ exports.createTable = async function (req, res) {
         "`store_pin` varchar(20) COLLATE utf8mb4_unicode_ci," +
         "`store_latitude` varchar(20) COLLATE utf8mb4_unicode_ci," +
         "`store_longitude` varchar(20) COLLATE utf8mb4_unicode_ci," +
+        "`store_type` int(2) unsigned NOT NULL DEFAULT 0," + //1-grocery,
         "`store_active` int(2) unsigned NOT NULL DEFAULT 0," +
         "`store_tag` varchar(255) COLLATE utf8mb4_unicode_ci," +
         "`store_remark` varchar(255) COLLATE utf8mb4_unicode_ci," +
@@ -187,6 +189,30 @@ exports.createTable = async function (req, res) {
         "PRIMARY KEY (`product_id`)," +
         "CONSTRAINT FK_CategoryId FOREIGN KEY (`cat_id`) REFERENCES `tbl_category`(`cat_id`)," +
         "UNIQUE KEY `product_name` (`product_name`)" +
+        ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+    const query_product_item = "CREATE TABLE `tbl_product_item` (" +
+        "`product_id` int(11) unsigned NOT NULL," +
+        "`item_id` int(11) unsigned NOT NULL AUTO_INCREMENT," +
+        "`product_mrp` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`product_price` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`product_image` varchar(255) COLLATE utf8mb4_unicode_ci," +
+        "`product_weight` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`product_unit` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL," +
+        "`created_at` datetime NOT NULL," +
+        "`updated_at` datetime NOT NULL," +
+        "PRIMARY KEY (`item_id`)," +
+        "CONSTRAINT FK_ItemProductId FOREIGN KEY (`product_id`) REFERENCES `tbl_product`(`product_id`)," +
+        "UNIQUE KEY `product_weight` (`product_weight`)" +
+        ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+    const query_product_image = "CREATE TABLE `tbl_product_image` (" +
+        "`product_id` int(11) unsigned NOT NULL," +
+        "`image_id` int(11) unsigned NOT NULL AUTO_INCREMENT," +
+        "`product_image` varchar(255) COLLATE utf8mb4_unicode_ci," +
+        "`created_at` datetime NOT NULL," +
+        "`updated_at` datetime NOT NULL," +
+        "PRIMARY KEY (`image_id`)," +
+        "CONSTRAINT FK_ImageProductId FOREIGN KEY (`product_id`) REFERENCES `tbl_product`(`product_id`)," +
+        "UNIQUE KEY `product_image` (`product_image`)" +
         ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
     const query_payment = "CREATE TABLE `tbl_payment_temp` (" + //this table is common
         "`user_id` int(10) unsigned NOT NULL," +
@@ -302,14 +328,16 @@ exports.createTable = async function (req, res) {
     const query_drop_table = "DROP TABLE tbl_user";
     // executeDBQuery(req, res, query_drop_table);
     executeDBQuery(req, res, query_access_token);
-    // executeDBQuery(req, res, query_user);
+    executeDBQuery(req, res, query_user);
     // executeDBQuery(req, res, query_address);
     // executeDBQuery(req, res, query_city);
     // executeDBQuery(req, res, query_order);
     // executeDBQuery(req, res, query_cart);
     // executeDBQuery(req, res, query_store);
     // executeDBQuery(req, res, query_category);
-    // executeDBQuery(req, res, query_product);
+    executeDBQuery(req, res, query_product);
+    executeDBQuery(req, res, query_product_item);
+    executeDBQuery(req, res, query_product_image);
     // executeDBQuery(req, res, query_payment);
     // executeDBQuery(req, res, query_payment_success);
     // executeDBQuery(req, res, query_wallet);

@@ -15,9 +15,15 @@ const router = express.Router()
 // var findAllUsers = require('./middleware/findAllUsers');
 // var welcome = require('./welcome');
 
-//route middleware to verify a token 
-router.use(verifyToken); 
+//route middleware to verify a token    
+router.use(verifyToken);
 router.get('/', mRouteWelcome.welcome);
+//-------node-mailer started------------
+router.get('/index', function (req, res) {
+    res.sendfile('index.html');
+});
+router.get('/verifyMail', mRouteLogin.verifyEmail);
+//-------node mailer over--------------
 // router.get('/users', findAllUsers);
 
 //route to handle all apis
@@ -28,8 +34,6 @@ router.get('/createTable', mRouteTable.createTable);
 
 //Login apis added
 router.get('/serverTime', mRouteLogin.getServerTime);
-router.post('/register', mRouteLogin.userRegister);
-router.post('/login', mRouteLogin.userLogin);
 // router.put('/update', mRouteLogin.userLogin);
 // router.delete('/delete', mRouteLogin.userLogin);
 // router.get('/logout', mRouteLogin.userLogout);
