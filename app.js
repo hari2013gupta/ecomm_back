@@ -21,9 +21,11 @@ app.use(function (req, res, next) {
 });
 
 const mRouteLogin = require('./app/routes/route_login')
+const mRouteTable = require('./app/routes/route_table')
 app.post('/register', mRouteLogin.userRegister);
 app.post('/login', mRouteLogin.userLogin);
 app.post('/verifyotp', mRouteLogin.verifyOTP);
+app.get('/createTable', mRouteTable.createTable);
 const mRouter = require('./app/routes/router')
 app.use('/api', mRouter)
 

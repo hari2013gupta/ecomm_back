@@ -89,42 +89,6 @@ exports.sendOTP = function (params) {
   });
 }
 /*--------------------OTP Module Over----------------------------*/
-
-function executeDBQuery(req, res, strQuery) {
-  con.query(strQuery, function (error, results, fields) {
-    try {
-      if (error) {
-        console.log(error);
-        //throw error;
-        // res.send({
-        //   "code": 400,
-        //   "status": false,
-        //   "message": "Error found"
-        // });
-        res.json({
-          code: 400,
-          status: false,
-          message: 'Error occured',
-          data: ''
-        });
-      } else {
-        console.log(fields);
-        // res.send(results);
-        res.json({
-          code: 200,
-          status: true,
-          message: 'Success',
-          data: results
-        });
-        // Don't use the connection here, it has been returned to the pool.
-      }
-    } catch (err) {
-      res.status(500)
-      res.send(err.message)
-    }
-  });
-}
-
 function executeDBQueryArr(res, strQuery, values) {
   con.query(strQuery, [values], function (error, results, fields) {
     if (error) throw error;
@@ -164,7 +128,7 @@ exports.userRegister = async function (req, res) {
   }
   console.log(user);
   var query = "SELECT user_mobile FROM ?? WHERE ??=?";
-  var table = ["tbl_user", "user_mobile", user.user_mobile];
+  var table = ["tbl_customer", "user_mobile", user.user_mobile];
   query = mysql.format(query, table);
 
   con.query(query, function (err, rows) {
@@ -177,7 +141,7 @@ exports.userRegister = async function (req, res) {
     } else {
       if (rows.length == 0) {
         var query = "INSERT INTO  ?? SET  ?";
-        var table = ["tbl_user"];
+        var table = ["tbl_customer"];
         query = mysql.format(query, table);
         con.query(query, user, function (err, results, fields) {
           if (err) {
@@ -223,9 +187,9 @@ exports.verifyOTP = async function (req, res) {
     email: req.body.email //|| req.query.email
   }
   // var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
-  // var table = ["tbl_user","password",  md5(post.password), "user_mobile", post.mobile];
+  // var table = ["tbl_customer","password",  md5(post.password), "user_mobile", post.mobile];
   var query = "SELECT * FROM ?? WHERE ??=?";
-  var table = ["tbl_user", "user_mobile", post.mobile];
+  var table = ["tbl_customer", "user_mobile", post.mobile];
   query = mysql.format(query, table);
   con.query(query, async function (error, results) {
     if (error) {
@@ -269,9 +233,9 @@ exports.userLogin = async function (req, res) {
     email: req.body.email //|| req.query.email
   }
   // var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
-  // var table = ["tbl_user","password",  md5(post.password), "user_mobile", post.mobile];
+  // var table = ["tbl_customer","password",  md5(post.password), "user_mobile", post.mobile];
   var query = "SELECT * FROM ?? WHERE ??=?";
-  var table = ["tbl_user", "user_mobile", post.mobile];
+  var table = ["tbl_customer", "user_mobile", post.mobile];
   query = mysql.format(query, table);
 
   con.query(query, async function (error, results) {

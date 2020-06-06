@@ -1,7 +1,7 @@
 var verifyToken = require('../verifyToken');
 const mRouteWelcome = require('./route_welcome');
 const mRouteLogin = require('./route_login')
-// const mRouteCommon = require('./route_common')
+const mRouteCommon = require('./route_common')
 const mRouteTable = require('./route_table')
 // const mRouteApp = require('./route_app')
 // const mRouteWeb = require('./route_web')
@@ -15,7 +15,7 @@ const router = express.Router()
 // var findAllUsers = require('./middleware/findAllUsers');
 // var welcome = require('./welcome');
 
-//route middleware to verify a token    
+//route middleware to verify a token
 router.use(verifyToken);
 router.get('/', mRouteWelcome.welcome);
 //-------node-mailer started------------
@@ -27,10 +27,11 @@ router.get('/verifyMail', mRouteLogin.verifyEmail);
 // router.get('/users', findAllUsers);
 
 //route to handle all apis
-router.get('/createTable', mRouteTable.createTable);
+// router.get('/createTable', mRouteTable.createTable);
 //Common apis added
 // router.get('/getuserlist', mRouteCommon.getUserList);
-// router.get('/getcustomerlist', mRouteCommon.getCustomerList);
+// params.table_name = "tbl_customer"
+router.get('/commonTableData', mRouteCommon.getCommonTableData);
 
 //Login apis added
 router.get('/serverTime', mRouteLogin.getServerTime);
