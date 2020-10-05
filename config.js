@@ -2,9 +2,9 @@ module.exports = {
     // secret: used when we create and verify JSON Web Tokens
     app_name: 'SwadesiShop',
     secret: 'jsismagic',
-    mailer: 'r2k18gupta@gmail.com',
+    mailer: 'swdesi.shop@gmail.com',
     // pass: 'xxxxx',
-    pass: 'Gupta@234',
+    pass: 'Swadesi_321',
     //All table added here
     //phase-I---------------Start 01stJune2020
     tatoken: 'tbl_access_token',
@@ -40,8 +40,12 @@ module.exports = {
     tdopp: 'tbl_deliv_order_purchased',
     tdmanager: 'tbl_deliv_manager',
 
-    //All queries added here--------------
+    //simple queries --------------
     q_select: 'SELECT * FROM ??',
+    qwhere: "SELECT * FROM ?? WHERE ??=?",
+    qwwhere: "SELECT * FROM ?? WHERE ??=? AND ??=?",
+    qwherem: "SELECT user_mobile FROM ?? WHERE ??=?",
+    qinsert: "INSERT INTO  ?? SET  ?",
 
     //All String added here---------------
     MSG_INTERNAL_ERR: 'Internal server error!',
@@ -71,23 +75,23 @@ module.exports = {
                 return this.tpitem;
             case 1011:
                 return this.tpimage;
-            case 1012:
+            case 1012://popular
                 return this.tpcategory;
             case 1013:
                 return this.tpproduct;
-            case 1014:
+            case 1014://cart
                 return this.tcart;
             case 1015:
                 return this.tcproduct;
-            case 1016:
+            case 1016://Order
                 return this.torder;
             case 1017:
                 return this.topp;
-            case 1018:
+            case 1018://payment
                 return this.tpayment;
             case 1019:
                 return this.tpaccount;
-            case 1020:
+            case 1020://wallet
                 return this.twallet;
             case 1021:
                 return this.toffer;
@@ -95,7 +99,7 @@ module.exports = {
                 return this.tcoupon;
             case 1023:
                 return this.tnotification;
-            case 1024:
+            case 1024://delivery
                 return this.tduser;
             case 1025:
                 return this.tdaddress;

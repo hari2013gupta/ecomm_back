@@ -127,9 +127,8 @@ exports.userRegister = async function (req, res) {
     "updated_at": today
   }
   console.log(user);
-  var query = "SELECT user_mobile FROM ?? WHERE ??=?";
-  var table = ["tbl_customer", "user_mobile", user.user_mobile];
-  query = mysql.format(query, table);
+  var table = [config.tcustomer, "user_mobile", user.user_mobile];
+  var query = mysql.format(config.qwherem, table);
 
   con.query(query, function (err, rows) {
     if (err) {
@@ -140,9 +139,8 @@ exports.userRegister = async function (req, res) {
       });
     } else {
       if (rows.length == 0) {
-        var query = "INSERT INTO  ?? SET  ?";
-        var table = ["tbl_customer"];
-        query = mysql.format(query, table);
+        var table = [config.tcustomer];
+        query = mysql.format(config.qinsert, table);
         con.query(query, user, function (err, results, fields) {
           if (err) {
             res.send({
@@ -186,11 +184,9 @@ exports.verifyOTP = async function (req, res) {
     mobile: req.body.mobile,
     email: req.body.email //|| req.query.email
   }
-  // var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
   // var table = ["tbl_customer","password",  md5(post.password), "user_mobile", post.mobile];
-  var query = "SELECT * FROM ?? WHERE ??=?";
-  var table = ["tbl_customer", "user_mobile", post.mobile];
-  query = mysql.format(query, table);
+  var table = [config.tcustomer, "user_mobile", post.mobile];
+  query = mysql.format(config.qwhere, table);
   con.query(query, async function (error, results) {
     if (error) {
       res.send({
@@ -230,18 +226,15 @@ exports.userLogin = async function (req, res) {
   var post = {
     password: req.body.password,
     mobile: req.body.mobile,
-    email: req.body.email //|| req.query.email
+    // email: req.body.email //|| req.query.email
   }
-  // var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
-  // var table = ["tbl_customer","password",  md5(post.password), "user_mobile", post.mobile];
-  var query = "SELECT * FROM ?? WHERE ??=?";
-  var table = ["tbl_customer", "user_mobile", post.mobile];
-  query = mysql.format(query, table);
-
+  // var table = [config.tcustomer,"password",  md5(post.password), "user_mobile", post.mobile];
+  var table = [config.tcustomer, "user_mobile", post.mobile];
+  var query = mysql.format(config.qwhere, table);
   con.query(query, async function (error, results) {
     if (error) {
       res.send({
-        "code": 400,
+        "code": 400, 
         "status": false,
         "failed": "error ocurred"
       })
@@ -260,9 +253,8 @@ exports.userLogin = async function (req, res) {
             device_token: results[0].device_token,
             ip_address: results[0].ip_address
           }
-          var query = "INSERT INTO  ?? SET  ?";
-          var table = ["tbl_access_token"];
-          query = mysql.format(query, table);
+          var table = [config.tatoken];
+          var query = mysql.format(config.qinsert, table);
           con.query(query, data, function (err, rows) {
             if (err) {
               res.json({
@@ -274,29 +266,24 @@ exports.userLogin = async function (req, res) {
               res.json({
                 code: 200,
                 status: true,
-                message: 'Token generated',
+                message: 'Login successful!',
                 data: token,
                 currUser: results[0].user_id
               });
-            } // return info including token
+            } 
           });
-          // res.send({
-          //   "code": 200,
-          //   "status": true,
-          //   "message": "Login sucessful!"
-          // })
         } else {
           res.send({
             "code": 204,
             "status": false,
-            "message": "Email and password does not match"
+            "message": "Password does not match"
           })
         }
       } else {
         res.send({
           "code": 206,
           "status": false,
-          "success": "Email does not exits"
+          "message": "Mobile number does not exits"
         });
       }
     }
