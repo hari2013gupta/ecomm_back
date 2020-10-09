@@ -3,10 +3,10 @@ var bodyParser = require('body-parser')
 const cors = require("cors");
 
 const app = express();
-var corsOptions = {
-  origin: "http://localhost:8000"
-};
-app.use(cors(corsOptions));
+// var corsOptions = {
+//   origin: "http://localhost:3000"
+// };
+// app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -31,7 +31,7 @@ app.get('/commonTableData', mCommon.getCommonTableData1);
 const mRouter = require('./app/routes/router')
 app.use('/api', mRouter)
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3306;
 const server = app.listen(PORT, () => {
     const host = server.address().host
     const port = server.address().port
