@@ -1,6 +1,6 @@
 const express = require('express')
 var bodyParser = require('body-parser')
-const cors = require("cors");
+// const cors = require("cors");
 
 const app = express();
 // var corsOptions = {
@@ -27,6 +27,7 @@ app.post('/register', mRouteLogin.userRegister);
 app.post('/login', mRouteLogin.userLogin);
 app.post('/verifyotp', mRouteLogin.verifyOTP);
 app.get('/createTable', mRouteTable.createTable);
+
 app.get('/commonTableData', mCommon.getCommonTableData1);
 const mRouter = require('./app/routes/router')
 app.use('/api', mRouter)

@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-const con = require('../../db/db_config');
+const con = require('../../db/db.config');
 var config = require('../../config');
 
 function executeDBQuery(req, res, strQuery) {

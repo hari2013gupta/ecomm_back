@@ -1,4 +1,4 @@
-const con = require('../../db/db_config')
+const con = require('../../db/db')
 
 function executeDBQuery(req, res, strQuery) {
     con.query(strQuery, function (error, results, fields) {

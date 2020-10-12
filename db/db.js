@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../db/db.config.js");
 
 var con = mysql.createPool({
     host: dbConfig.HOST,
@@ -8,14 +8,5 @@ var con = mysql.createPool({
     database: dbConfig.DB
 });
 
-console.log("Connection Object Created");
-con.connect(function (err) {
-    if (err) {
-        console.log(err);
-        throw err;
-        return;
-    }
-    console.log("Database connected!");
-})
-
+console.log("--------Database Connection Object Created");
 module.exports = con;

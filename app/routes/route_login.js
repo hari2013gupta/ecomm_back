@@ -4,7 +4,7 @@ var mysql = require("mysql");
 const SendOtp = require('sendotp');
 var nodemailer = require("nodemailer");
 
-const con = require('../../db/db_config');
+const con = require('../../db/db');
 var config = require('../../config');
 
 var smtpTransport = nodemailer.createTransport({

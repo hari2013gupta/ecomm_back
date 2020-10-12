@@ -5,6 +5,7 @@ var con = mySql.createConnection({
   user: 'b329058594e2bb',
   password: 'a8db1095',
   database: 'heroku_bbb68f029bf74e3',
+  reconnect: 'heroku_bbb68f029bf74e3',
   debug    :  true,
   port    :  3306,
   // dialect: "mysql",
@@ -33,10 +34,8 @@ var con = mySql.createConnection({
       idle: 10000
     }
 });
-
 con.connect(function (err){
     if(err) throw err;
-    console.log("Database connected!");
+    console.log("--Database connected!");
 })
-
 module.exports = con;
