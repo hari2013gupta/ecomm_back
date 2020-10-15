@@ -1,0 +1,2 @@
+git remote -v
+heroku addons:create cleardb:ignite

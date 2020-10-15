@@ -3,6 +3,10 @@ var bodyParser = require('body-parser')
 // const cors = require("cors");
 
 const app = express();
+
+// use the express-static middleware
+app.use(express.static("public"))
+
 // var corsOptions = {
 //   origin: "http://localhost:3000"
 // };
