@@ -58,7 +58,7 @@ exports.getCommonTableData1 = async function (req, res) {
     column_item1: "",
     column_item2: "",
   };
-  var table = ['tbl_product'];//[config.getTable(params)];
+  var table = [config.getTable(params)];//['tbl_product'];//
   query = mysql.format(config.q_select, table);
   executeDBQuery(req, res, query);
 }

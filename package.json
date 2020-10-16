@@ -74,7 +74,9 @@
   "engines": {
     "node": "10.x"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.5"
+  },
   "bugs": {
     "url": "https://github.com/hari2013gupta/ecomm_back/issues"
   },

@@ -1,2 +1,11 @@
+commands for heroku---
+
 git remote -v
 heroku addons:create cleardb:ignite
+heroku logs --tail
+npm init -y
+npm install express --save
+npm audit fix
+touch app.js
+npm i --save-dev nodemon
+

@@ -1,0 +1,4 @@
+GET https://swadesishop.herokuapp.com/api/createTable
+
+GET http://127.0.0.1:3306/api/commonTableData
+
