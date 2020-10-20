@@ -30,9 +30,9 @@ const mCommon = require('./app/routes/route_common')
 app.post('/register', mRouteLogin.userRegister);
 app.post('/login', mRouteLogin.userLogin);
 app.post('/verifyotp', mRouteLogin.verifyOTP);
-app.get('/createTable', mRouteTable.createTable);
+app.post('/createTable', mRouteTable.createTable);
 
-app.get('/commonTableData', mCommon.getCommonTableData1);
+app.post('/commonTableData', mCommon.getCommonTableData1);
 const mRouter = require('./app/routes/router')
 app.use('/api', mRouter)
 

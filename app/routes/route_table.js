@@ -478,42 +478,44 @@ exports.createTable = async function (req, res) {
         "VALUES(2,'sugar', 'Title Sugar - 1Kg', 'description_sugar', 44, 40," +
         "'', '1 KG', 5, 1, 1, 1, 'essential', 0, 'aaaaaaaaaaaa')";
 
-    const query_drop_table = "DROP TABLE tbl_customer";
+    // const query_drop_table = "DROP TABLE tbl_customer";
     // executeDBQuery(req, res, insert_country);
     // executeDBQuery(req, res, insert_state);
     // executeDBQuery(req, res, insert_city);  
     // executeDBQuery(req, res, insert_store);
-    executeDBQuery(req, res, insert_category);
-    executeDBQuery(req, res, insert_product);
+    // executeDBQuery(req, res, insert_category);
+    // executeDBQuery(req, res, insert_product);
 
     // executeDBQuery(req, res, query_drop_table);
 
-    // executeDBQuery(req, res, query_customer);
-    // executeDBQuery(req, res, query_access_token);
-    // executeDBQuery(req, res, query_address);
-    // executeDBQuery(req, res, query_country);
-    // executeDBQuery(req, res, query_state);
-    // executeDBQuery(req, res, query_city);
-    // executeDBQuery(req, res, query_store);
-    // executeDBQuery(req, res, query_category);
+    executeDBQuery(req, res, query_customer);
+    executeDBQuery(req, res, query_access_token);
+    executeDBQuery(req, res, query_address);
+    executeDBQuery(req, res, query_country);
+    executeDBQuery(req, res, query_state);
+    executeDBQuery(req, res, query_city);
+    executeDBQuery(req, res, query_store);
+    executeDBQuery(req, res, query_category);
 
-    // executeDBQuery(req, res, query_product);
-    // executeDBQuery(req, res, query_product_item);
-    // executeDBQuery(req, res, query_product_image);
-    // executeDBQuery(req, res, query_popular_category);
-    // executeDBQuery(req, res, query_popular_product);
-    // executeDBQuery(req, res, query_cart);
-    // executeDBQuery(req, res, query_cart_product);
+    executeDBQuery(req, res, query_product);
+    executeDBQuery(req, res, query_product_item);
+    executeDBQuery(req, res, query_product_image);
+    executeDBQuery(req, res, query_popular_category);
+    executeDBQuery(req, res, query_popular_product);
+    executeDBQuery(req, res, query_cart);
+    executeDBQuery(req, res, query_cart_product);
 
-    // executeDBQuery(req, res, query_order);
-    // executeDBQuery(req, res, query_order_product_purchased);
-    // executeDBQuery(req, res, query_payment_master);
-    // executeDBQuery(req, res, query_payment_account);
-    // executeDBQuery(req, res, query_wallet);
-    // executeDBQuery(req, res, query_offer);
-    // executeDBQuery(req, res, query_coupon);
-    // executeDBQuery(req, res, query_notification);
+    executeDBQuery(req, res, query_order);
+    executeDBQuery(req, res, query_order_product_purchased);
+    executeDBQuery(req, res, query_payment_master);
+    executeDBQuery(req, res, query_payment_account);
+    executeDBQuery(req, res, query_wallet);
+    executeDBQuery(req, res, query_offer);
+    executeDBQuery(req, res, query_coupon);
+    executeDBQuery(req, res, query_notification);
 
+    //-------------Delivery Module Start Here----------------
+    
     // executeDBQuery(req, res, query_deliv_user);
     // executeDBQuery(req, res, query_deliv_address);
     // executeDBQuery(req, res, query_deliv_order);
