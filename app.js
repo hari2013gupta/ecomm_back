@@ -36,7 +36,7 @@ app.post('/commonTableData', mCommon.getCommonTableData1);
 const mRouter = require('./app/routes/router')
 app.use('/api', mRouter)
 
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
     const host = server.address().host
     const port = server.address().port
